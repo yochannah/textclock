@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+  <title>Clock</title>
+
+  <style type="text/css">
+    body {
+      text-align: center;
+      color: #000;
+      background-color: #fff;
+    }
+
+    #thewholeclock {
+      padding: 70px;
+      width: 400px;
+      background-color: #000;
+      color: #666;
+      text-transform: uppercase;
+      border: 0;
+      font-family: "Lucida Console", arial, helvetica;
+      font-size: 25px;
+    }
+
+    #thewholeclock td {
+      width: 25px;
+    }
+
+    .it,
+    .is {
+      color: #fff;
+      background-color: #000;
+    }
+
+    .highlighted {
+      color: #fff;
+      background-color: #000;
+    }
+  </style>
+
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      updateClock();
+      var autoRefresh = setInterval(function() {
+        updateClock();
+      }, 6000); //update clock every six seconds
+
+      function updateClock() {
+        $('.display').removeClass('highlighted');
+        /*
+         * This is the function that does all the display / time calculations
+         */
+        currentTime = new Date();
+        currentHours = currentTime.getHours();
+        currentMinutes = currentTime.getMinutes();
+
+
+        $(getHourDisplay()).addClass('highlighted');
+        $(getMinuteDisplay()).addClass('highlighted');
+      };
+
+      function getHourDisplay() {
+        var hourDisplay = "";
+        if (currentMinutes > 32) {
+          currentHours = currentHours + 1;
+          // This is needed to make "twenty to [the hour]" point to the correct hour!!
+        }
+        if (currentHours >= 12) { // This is only a twelve hour clock
+          currentHours = currentHours - 12;
+          if (currentHours == 12) {
+            currentHours = 0;
+          }
+        }
+        var hourNames = ["twelve", "one", "two", "three", "four", "bottomFive", "six", "seven", "eight", "nine", "bottomTen", "eleven"];
+        hourDisplay += "." + hourNames[currentHours];
+        return hourDisplay;
+      }
+
+      function getMinuteDisplay() {
+        var minuteDisplay = "";
+        if ((currentMinutes >= 57) || (currentMinutes < 2)) {
+          minuteDisplay += ".oclock";
+        } else if ((currentMinutes >= 2) && (currentMinutes < 7)) {
+          minuteDisplay += ".topFive, .past";
+        } else if ((currentMinutes >= 7) && (currentMinutes < 12)) {
+          minuteDisplay += ".topTen, .past";
+        } else if ((currentMinutes >= 12) && (currentMinutes < 17)) {
+          minuteDisplay += ".a, .quarter, .past";
+        } else if ((currentMinutes >= 17) && (currentMinutes < 22)) {
+          minuteDisplay += ".twenty, .past";
+        } else if ((currentMinutes >= 22) && (currentMinutes < 27)) {
+          minuteDisplay += ".twenty, .topFive, .past";
+        } else if ((currentMinutes >= 27) && (currentMinutes < 32)) {
+          minuteDisplay += ".half, .past";
+        } else if ((currentMinutes >= 32) && (currentMinutes < 37)) {
+          minuteDisplay += ".twenty, .five, .to";
+        } else if ((currentMinutes >= 37) && (currentMinutes < 42)) {
+          minuteDisplay += ".twenty, .to";
+        } else if ((currentMinutes >= 42) && (currentMinutes < 47)) {
+          minuteDisplay += ".a, .quarter, .to";
+        } else if ((currentMinutes >= 47) && (currentMinutes < 52)) {
+          minuteDisplay += ".topTen, .to";
+        } else if ((currentMinutes >= 52) && (currentMinutes < 57)) {
+          minuteDisplay += ".topFive, .to";
+        }
+        return minuteDisplay;
+      }
+    });
+  </script>
+</head>
+
+<body>
+
+  <div id="thewholeclock">
+    <table>
+      <tr>
+        <td class="display it">I</td>
+        <td class="display it">T</td>
+        <td class="dummy">L</td>
+        <td class="display is">I</td>
+        <td class="display is">S</td>
+        <td class="dummy">A</td>
+        <td class="dummy">S</td>
+        <td class="display time">T</td>
+        <td class="display time">I</td>
+        <td class="display time">M</td>
+        <td class="display time">E</td>
+      </tr>
+
+      <tr>
+        <td class="display a">A</td>
+        <td class="dummy">F</td>
+        <td class="display quarter">Q</td>
+        <td class="display quarter">U</td>
+        <td class="display quarter">A</td>
+        <td class="display quarter">R</td>
+        <td class="display quarter">T</td>
+        <td class="display quarter">E</td>
+        <td class="display quarter">R</td>
+        <td class="dummy">G</td>
+        <td class="dummy">E</td>
+      </tr>
+
+      <tr>
+        <td class="display twenty">T</td>
+        <td class="display twenty">W</td>
+        <td class="display twenty">E</td>
+        <td class="display twenty">N</td>
+        <td class="display twenty">T</td>
+        <td class="display twenty">Y</td>
+        <td class="display topFive">F</td>
+        <td class="display topFive">I</td>
+        <td class="display topFive">V</td>
+        <td class="display topFive">E</td>
+        <td class="dummy">W</td>
+      </tr>
+
+      <tr>
+        <td class="display half">H</td>
+        <td class="display half">A</td>
+        <td class="display half">L</td>
+        <td class="display half">F</td>
+        <td class="dummy">X</td>
+        <td class="display topTen">T</td>
+        <td class="display topTen">E</td>
+        <td class="display topTen">N</td>
+        <td class="dummy">Y</td>
+        <td class="display to">T</td>
+        <td class="display to">O</td>
+      </tr>
+
+
+      <tr>
+        <td class="display past">P</td>
+        <td class="display past">A</td>
+        <td class="display past">S</td>
+        <td class="display past">T</td>
+        <td class="dummy">M</td>
+        <td class="dummy">O</td>
+        <td class="dummy">N</td>
+        <td class="display nine">N</td>
+        <td class="display nine">I</td>
+        <td class="display nine">N</td>
+        <td class="display nine">E</td>
+      </tr>
+
+      <tr>
+        <td class="display one">O</td>
+        <td class="display one">N</td>
+        <td class="display one">E</td>
+        <td class="display six">S</td>
+        <td class="display six">I</td>
+        <td class="display six">X</td>
+        <td class="display three">T</td>
+        <td class="display three">H</td>
+        <td class="display three">R</td>
+        <td class="display three">E</td>
+        <td class="display three">E</td>
+      </tr>
+
+      <tr>
+        <td class="display four">F</td>
+        <td class="display four">O</td>
+        <td class="display four">U</td>
+        <td class="display four">R</td>
+        <td class="display bottomFive">F</td>
+        <td class="display bottomFive">I</td>
+        <td class="display bottomFive">V</td>
+        <td class="display bottomFive">E</td>
+        <td class="display two">T</td>
+        <td class="display two">W</td>
+        <td class="display two">O</td>
+      </tr>
+
+      <tr>
+        <td class="display eight">E</td>
+        <td class="display eight">I</td>
+        <td class="display eight">G</td>
+        <td class="display eight">H</td>
+        <td class="display eight">T</td>
+        <td class="display eleven">E</td>
+        <td class="display eleven">L</td>
+        <td class="display eleven">E</td>
+        <td class="display eleven">V</td>
+        <td class="display eleven">E</td>
+        <td class="display eleven">N</td>
+      </tr>
+
+      <tr>
+        <td class="display seven">S</td>
+        <td class="display seven">E</td>
+        <td class="display seven">V</td>
+        <td class="display seven">E</td>
+        <td class="display seven">N</td>
+        <td class="display twelve">T</td>
+        <td class="display twelve">W</td>
+        <td class="display twelve">E</td>
+        <td class="display twelve">L</td>
+        <td class="display twelve">V</td>
+        <td class="display twelve">E</td>
+      </tr>
+
+      <tr>
+        <td class="display bottomTen">T</td>
+        <td class="display bottomTen">E</td>
+        <td class="display bottomTen">N</td>
+        <td class="dummy">K</td>
+        <td class="dummy">E</td>
+        <td class="display oclock">O'</td>
+        <td class="display oclock">C</td>
+        <td class="display oclock">L</td>
+        <td class="display oclock">O</td>
+        <td class="display oclock">C</td>
+        <td class="display oclock">K</td>
+      </tr>
+    </table>
+  </div>
+
+  <script type="text/javascript">
+    <!--
+    google_ad_client = "pub-1767732495242430";
+    /* 468x60, created 9/19/10 */
+    google_ad_slot = "9862631828";
+    google_ad_width = 468;
+    google_ad_height = 60;
+    //-->
+  </script>
+  <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  </script>
+
+</body>
+
+</html>
